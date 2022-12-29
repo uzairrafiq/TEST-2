@@ -17,7 +17,7 @@ function runQuery($col,$table,$where){
       
    $stmt->execute(); 
    if($stmt->rowCount() > 0){ 
-       return $stmt->fetchAll();
+       return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }else{
        return false;
     }
@@ -42,8 +42,10 @@ function runQuery($col,$table,$where){
            $where = 'cp.category_id = '.$v['id'];
            
            $getProducts = runQuery($col,$table,$where);
-          
-            $outPut[]=['id'=>$v['id'],'name'=>$v['name'],'products'=>$getProducts];
+           
+           if($getProducts != null){
+               $outPut[]=['id'=>$v['id'],'name'=>$v['name'],'products'=>$getProducts];
+           }
              
       }
        header('Content-type: application/json');
